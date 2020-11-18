@@ -1,0 +1,9 @@
+# <---IntelliJ config--->
+.idea/
+*.iml
+
+# <---maven build files--->
+target/
+
+#<---class files which should be excluded by being in target/--->
+*.class
