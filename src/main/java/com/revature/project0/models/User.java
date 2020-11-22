@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class User {
 
@@ -14,7 +15,36 @@ public class User {
     private String email;
     private String password;
     private String birthday;
+    private Role role;
+    private ArrayList<Card> cards;
     private boolean isLoggedIn;
+
+    public User() {
+        this.userName = "blank";
+        this.password = "1234";
+    }
+
+    public User(String userName , String password) {
+        this.userName = userName;
+        this.password = password;
+        this.isLoggedIn = true;
+    }
+
+    public User(String userName, String email, String password, String birthday) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+    }
+
+    public User(int id , Role role,  String userName, String email, String password, String birthday) {
+        this.id = id;
+        this.role = role;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+    }
 
     // Getters
     public int getId() {
@@ -29,6 +59,7 @@ public class User {
         return email;
     }
 
+
     public String getPassword() {
         return password;
     }
@@ -41,31 +72,19 @@ public class User {
         return isLoggedIn;
     }
 
-    public User() {
-        this.userName = "blank";
-        this.password = "1234";
+    public Role getRole() {
+        return role;
     }
 
-    public User(String userName , String password) {
-        this.userName = userName;
-        this.password = password;
-        this.isLoggedIn = true;
+    public ArrayList<Card> getCards() {
+        return cards;
     }
 
-    public User(String userName, String email, String password, String birthday) {
-        this.id = id;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.birthday = birthday;
-    }
+    // setters
 
-    public User(int id , String userName, String email, String password, String birthday) {
-        this.id = id;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.birthday = birthday;
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
     }
 
     public boolean login(String userName , String password) throws SQLException {
