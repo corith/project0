@@ -7,3 +7,6 @@ target/
 
 #<---class files which should be excluded by being in target/--->
 *.class
+
+### App.java which was mvn build example but used for testing some stuff on the fly
+App.java

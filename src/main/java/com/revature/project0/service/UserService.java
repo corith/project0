@@ -19,4 +19,8 @@ public class UserService {
     public User getUser(int id) {
         return userDao.getUser(id);
     }
+
+    public User insertUser(User newUser) {
+        return userDao.insertUser(newUser);
+    }
 }

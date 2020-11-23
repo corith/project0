@@ -16,6 +16,7 @@ public class User {
     private String password;
     private String birthday;
     private Role role;
+    private int role_id = 1;
     private ArrayList<Card> cards;
     private boolean isLoggedIn;
 
@@ -80,11 +81,17 @@ public class User {
         return cards;
     }
 
+    public int getRole_id() {
+        return role_id;
+    }
+
     // setters
-
-
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
+    }
+
+    public void setRole_id(int id) {
+        this.role_id = id;
     }
 
     public boolean login(String userName , String password) throws SQLException {

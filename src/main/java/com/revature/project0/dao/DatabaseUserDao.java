@@ -5,13 +5,11 @@ import com.revature.project0.models.Role;
 import com.revature.project0.models.User;
 import com.revature.project0.util.JDBCUtility;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseUserDao {
+
 
     public ArrayList<User> getAllUsers() {
         String sqlQuery = "SELECT * "
@@ -113,5 +111,39 @@ public class DatabaseUserDao {
             throwables.printStackTrace();
         }
         return new User();
+    }
+
+    public User insertUser(User newUser) {
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String sqlQuery = "INSERT INTO users "
+                    + "(name,password,email,role_id) "
+                    + "VALUES "
+                    + "(?,?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, newUser.getUserName());
+            pstmt.setInt(2, Integer.parseInt(newUser.getPassword()));
+            pstmt.setString(3, newUser.getEmail());
+            pstmt.setInt(4, newUser.getRole_id());
+
+            if (pstmt.executeUpdate() != 1) {
+                throw new SQLException("Inserting user failed, no rows were impacted");
+            }
+
+            int autoId;
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                autoId = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("inserting user failed, there was no id generated");
+            }
+            connection.commit();
+            return new User(autoId, newUser.getRole(), newUser.getUserName(), newUser.getEmail(), newUser.getPassword(), "10/10/1996");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 }
