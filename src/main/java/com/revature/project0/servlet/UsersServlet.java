@@ -15,8 +15,8 @@ import java.io.IOException;
 
 @WebServlet("/users/*")
 public class UsersServlet extends HttpServlet {
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private UserService userService   = new UserService();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final UserService userService   = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
