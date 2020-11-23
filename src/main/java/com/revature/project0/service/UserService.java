@@ -15,4 +15,12 @@ public class UserService {
     public ArrayList<User> getAllUsers() {
         return userDao.getAllUsers();
     }
+
+    public User getUser(int id) {
+        return userDao.getUser(id);
+    }
+
+    public User insertUser(User newUser) {
+        return userDao.insertUser(newUser);
+    }
 }
