@@ -28,7 +28,7 @@ public class DatabaseUserDao {
             while (rs.next()) {
                 int userId = rs.getInt(1);
                 String name = rs.getString(2);
-                int password = rs.getInt(3);
+                String password = rs.getString(3);
                 String email = rs.getString(5);
 
                 // get cards owned by each user
@@ -48,9 +48,9 @@ public class DatabaseUserDao {
                 }
 
                 int role_id = rs.getInt(4);
-                String role = rs.getString(8);
+                String role = rs.getString(7);
                 Role roleObj = new Role(role_id ,role);
-                User user = new User(userId , roleObj, name , email, String.valueOf(password), "10/10/10");
+                User user = new User(userId , roleObj, name , email, password);
                 user.setCards(cards);
                 users.add(user);
             }
@@ -79,7 +79,7 @@ public class DatabaseUserDao {
                 if (userId == id) {
 
                     String name = rs.getString(2);
-                    int password = rs.getInt(3);
+                    String password = rs.getString(3);
                     String email = rs.getString(5);
 
                     // get cards owned by each user
@@ -99,9 +99,9 @@ public class DatabaseUserDao {
                     }
 
                     int role_id = rs.getInt(4);
-                    String role = rs.getString(8);
+                    String role = rs.getString(7);
                     Role roleObj = new Role(role_id ,role);
-                    User user = new User(userId , roleObj, name , email, String.valueOf(password), "10/10/10");
+                    User user = new User(userId , roleObj, name , email, password);
                     user.setCards(cards);
                     return user;
                 }
@@ -139,11 +139,37 @@ public class DatabaseUserDao {
                 throw new SQLException("inserting user failed, there was no id generated");
             }
             connection.commit();
-            return new User(autoId, newUser.getRole(), newUser.getUserName(), newUser.getEmail(), newUser.getPassword(), "10/10/1996");
+            return new User(autoId, newUser.getRole(), newUser.getUserName(), newUser.getEmail(), newUser.getPassword());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
     }
+
+    public User updateUser(User user , User newFields) {
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String sqlQuery = "UPDATE users "
+                    + "SET name = ?, email = ? "
+                    + "WHERE id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+            pstmt.setString(1, newFields.getUserName());
+            pstmt.setString(2, newFields.getEmail());
+            pstmt.setInt(3, user.getId());
+
+            if (pstmt.executeUpdate() <= 0) {
+                throw new SQLException("updating user failed, no rows were changed");
+            }
+
+
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return new User();
+    }
+
+
 }

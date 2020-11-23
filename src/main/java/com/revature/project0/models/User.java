@@ -14,7 +14,6 @@ public class User {
     private String userName;
     private String email;
     private String password;
-    private String birthday;
     private Role role;
     private int role_id = 1;
     private ArrayList<Card> cards;
@@ -31,20 +30,18 @@ public class User {
         this.isLoggedIn = true;
     }
 
-    public User(String userName, String email, String password, String birthday) {
+    public User(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.birthday = birthday;
     }
 
-    public User(int id , Role role,  String userName, String email, String password, String birthday) {
+    public User(int id , Role role,  String userName, String email, String password) {
         this.id = id;
         this.role = role;
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.birthday = birthday;
     }
 
     // Getters
@@ -60,13 +57,8 @@ public class User {
         return email;
     }
 
-
     public String getPassword() {
         return password;
-    }
-
-    public String getBirthday() {
-        return birthday;
     }
 
     public boolean isLoggedIn() {
@@ -111,7 +103,7 @@ public class User {
 
     @Override
     public String toString() {
-        return this.userName + " " + this.password + " " + this.birthday + " " + this.email;
+        return this.userName + " " + this.password + " " + this.email;
     }
 
 }

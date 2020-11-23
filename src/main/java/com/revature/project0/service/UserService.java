@@ -6,7 +6,7 @@ import com.revature.project0.models.User;
 import java.util.ArrayList;
 
 public class UserService {
-    private DatabaseUserDao userDao;
+    private final DatabaseUserDao userDao;
 
     public UserService() {
         this.userDao = new DatabaseUserDao();
@@ -22,5 +22,9 @@ public class UserService {
 
     public User insertUser(User newUser) {
         return userDao.insertUser(newUser);
+    }
+
+    public User updateUser(User user , User newFields) {
+        return userDao.updateUser(user , newFields);
     }
 }
