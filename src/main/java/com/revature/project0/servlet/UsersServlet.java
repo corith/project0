@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -20,8 +21,13 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jsonResponse = objectMapper.writeValueAsString(userService.getAllUsers());
-        resp.getWriter().append(jsonResponse);
+        HttpSession session = req.getSession(false);
+        if (((Integer) session.getAttribute("role")) == 1) {
+            String jsonResponse = objectMapper.writeValueAsString(userService.getAllUsers());
+            resp.getWriter().append(jsonResponse);
+        } else {
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED , "You must be logged in with and admin user to get all users");
+        }
         resp.setContentType("application/json");
     }
 

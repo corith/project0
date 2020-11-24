@@ -5,6 +5,7 @@ import com.revature.project0.models.Role;
 import com.revature.project0.models.User;
 import com.revature.project0.util.JDBCUtility;
 
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 

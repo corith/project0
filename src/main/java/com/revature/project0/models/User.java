@@ -106,4 +106,15 @@ public class User {
         return this.userName + " " + this.password + " " + this.email;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        User user = (User) obj;
+        return this.getUserName().equals(user.getUserName()) && this.getPassword().equals(user.getPassword());
+    }
 }
