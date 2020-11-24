@@ -47,6 +47,15 @@ public class CardServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BufferedReader br = req.getReader();
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String jsonString = sb.toString();
+
         String path = req.getRequestURI().substring(9);
 
         try {
@@ -62,21 +71,22 @@ public class CardServlet extends HttpServlet {
                 }
             } else if (updateOrDelete.equals("/update")) {
                 // run update code
-                resp.getWriter().append("updated the card");
+                Card cardToBeUpdated = cardService.getCard(id);
+                Card newFields = objectMapper.readValue(jsonString , Card.class);
+                cardService.updateCard(cardToBeUpdated , newFields);
+                if (cardToBeUpdated.getName().equals("blank")) {
+                    resp.getWriter().append("no card with an id of ").append(String.valueOf(id)).append(" found...");
+                } else {
+                    resp.getWriter().append("successfully updated card ")
+                            .append(cardToBeUpdated.getName())
+                            .append("\nnew name: " + newFields.getName())
+                            .append("\nnew type: " + newFields.getType());
+                }
             } else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
 
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
-
-        BufferedReader br = req.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        String jsonString = sb.toString();
 
             if (path.equals("/cards/add")) {
                 Card newCard = objectMapper.readValue(jsonString, Card.class);

@@ -34,4 +34,8 @@ public class CardService {
     public void deleteCard(int id) {
         cardDao.deleteCard(id);
     }
+
+    public void updateCard(Card CardToBeUpdated, Card newFields) {
+        cardDao.updateCard(CardToBeUpdated, newFields);
+    }
 }

@@ -100,4 +100,23 @@ public class DatabaseCardDao {
             throwables.printStackTrace();
         }
     }
+
+    public void updateCard(Card cardToBeUpdated, Card newFields) {
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+            String sqlQuery = "update cards set name = ?, type = ? where id=?";
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+            pstmt.setString(1, newFields.getName());
+            pstmt.setString(2, newFields.getType());
+            pstmt.setInt(3,cardToBeUpdated.getId());
+            if (pstmt.executeUpdate() <= 0) {
+                throw new SQLException("updating user faild, no rows were updated..");
+            }
+            connection.commit();
+            pstmt.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
