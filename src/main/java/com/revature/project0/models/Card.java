@@ -8,10 +8,17 @@ public class Card {
 
     public Card() {
         super();
+        this.name = "blank";
     }
 
     public Card(int id, String name, String type, int owner) {
         this.id = id;
+        this.name = name;
+        this.type = type;
+        this.owner = owner;
+    }
+
+    public Card(String name, String type, int owner) {
         this.name = name;
         this.type = type;
         this.owner = owner;
