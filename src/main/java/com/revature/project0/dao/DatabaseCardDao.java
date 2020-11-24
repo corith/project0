@@ -3,10 +3,7 @@ package com.revature.project0.dao;
 import com.revature.project0.models.Card;
 import com.revature.project0.util.JDBCUtility;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseCardDao {
@@ -59,5 +56,31 @@ public class DatabaseCardDao {
             throwables.printStackTrace();
         }
         return new Card();
+    }
+
+    public Card insertCard(Card newCard) {
+
+        try(Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+            String sqlQuery = "INSERT INTO cards "
+                    + "(name,type,owner) "
+                    + "VALUES "
+                    + "(?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+            pstmt.setString(1, newCard.getName());
+            pstmt.setString(2, newCard.getType());
+            pstmt.setInt(3, newCard.getOwner());
+
+            if(pstmt.executeUpdate() <= 0) {
+                throw new SQLException("nah this didn't work dude....no rows were impacted though");
+            }
+
+            connection.commit();
+            return new Card(newCard.getName() , newCard.getType() , newCard.getOwner());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+
     }
 }

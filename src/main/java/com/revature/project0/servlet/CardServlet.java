@@ -55,6 +55,15 @@ public class CardServlet extends HttpServlet {
             sb.append(line);
         }
         String jsonString = sb.toString();
+
+        Card newCard = objectMapper.readValue(jsonString, Card.class);
+        String insertedJson = objectMapper.writeValueAsString(cardService.insertCard(newCard));
+        if (insertedJson.equals("null")) {
+            resp.getWriter().append("nah could not add that card, sorry dude...");
+        } else {
+            resp.getWriter().append("added new card\n").append(insertedJson);
+        }
+        resp.setContentType("application/json");
     }
 
 }

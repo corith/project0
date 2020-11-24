@@ -26,4 +26,8 @@ public class CardService {
     public Card getCard(int id) {
         return cardDao.getCard(id);
     }
+
+    public Card insertCard(Card newCard) {
+        return cardDao.insertCard(newCard);
+    }
 }

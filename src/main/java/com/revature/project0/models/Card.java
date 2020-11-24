@@ -18,6 +18,12 @@ public class Card {
         this.owner = owner;
     }
 
+    public Card(String name, String type, int owner) {
+        this.name = name;
+        this.type = type;
+        this.owner = owner;
+    }
+
     // getters
     public int getId() {
         return id;
