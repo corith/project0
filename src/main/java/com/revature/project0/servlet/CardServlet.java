@@ -47,6 +47,28 @@ public class CardServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = req.getRequestURI().substring(9);
+
+        try {
+            int id = Integer.parseInt(path.substring(14));
+            String updateOrDelete = path.substring(6 , 13);
+            if (updateOrDelete.equals("/delete")) {
+                String deletedCard = cardService.getCard(id).getName();
+                cardService.deleteCard(id);
+                if (deletedCard.equals("blank")) {
+                    resp.getWriter().append("there was no card found with an id of ").append(String.valueOf(id));
+                } else {
+                    resp.getWriter().append("the card with an id of " + id + " has been deleted");
+                }
+            } else if (updateOrDelete.equals("/update")) {
+                // run update code
+                resp.getWriter().append("updated the card");
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
+
+        } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+
         BufferedReader br = req.getReader();
         StringBuilder sb = new StringBuilder();
         String line;
@@ -56,13 +78,18 @@ public class CardServlet extends HttpServlet {
         }
         String jsonString = sb.toString();
 
-        Card newCard = objectMapper.readValue(jsonString, Card.class);
-        String insertedJson = objectMapper.writeValueAsString(cardService.insertCard(newCard));
-        if (insertedJson.equals("null")) {
-            resp.getWriter().append("nah could not add that card, sorry dude...");
-        } else {
-            resp.getWriter().append("added new card\n").append(insertedJson);
-        }
+            if (path.equals("/cards/add")) {
+                Card newCard = objectMapper.readValue(jsonString, Card.class);
+                String insertedJson = objectMapper.writeValueAsString(cardService.insertCard(newCard));
+                if (insertedJson.equals("null")) {
+                    resp.getWriter().append("nah could not add that card, sorry dude...");
+                } else {
+                    resp.getWriter().append("added new card\n").append(insertedJson);
+                }
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } // end catch
         resp.setContentType("application/json");
     }
 

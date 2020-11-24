@@ -30,4 +30,8 @@ public class CardService {
     public Card insertCard(Card newCard) {
         return cardDao.insertCard(newCard);
     }
+
+    public void deleteCard(int id) {
+        cardDao.deleteCard(id);
+    }
 }

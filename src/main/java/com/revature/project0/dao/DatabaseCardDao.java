@@ -83,4 +83,21 @@ public class DatabaseCardDao {
         return null;
 
     }
+
+    public void deleteCard(int id) {
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+            String sqlQuery = "delete from cards where id=?";
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+            pstmt.setInt(1,id);
+
+            if (pstmt.executeUpdate() <= 0) {
+                throw new SQLException("failed to delete card...no cards were removed");
+            }
+            connection.commit();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
