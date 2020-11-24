@@ -40,7 +40,11 @@ public class UsersServlet extends HttpServlet {
         try {
             User newUser = objectMapper.readValue(jsonString , User.class);
             String insertedJson = objectMapper.writeValueAsString(userService.insertUser(newUser));
-            resp.getWriter().append(insertedJson);
+            if (insertedJson.equals("null")) {
+                resp.getWriter().append("sorry, something went wrong...no new user was added...");
+            } else {
+                resp.getWriter().append(insertedJson);
+            }
             resp.setContentType("application/json");
 
         } catch (JsonProcessingException e) {

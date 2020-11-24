@@ -163,8 +163,8 @@ public class DatabaseUserDao {
                 throw new SQLException("updating user failed, no rows were changed");
             }
 
-
             connection.commit();
+            pstmt.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -172,4 +172,22 @@ public class DatabaseUserDao {
     }
 
 
+    public void deleteUser(int id) {
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.setAutoCommit(false);
+            String sqlQuery = "DELETE FROM users WHERE id = ?";
+
+            PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+            pstmt.setInt(1,id);
+
+            if (pstmt.executeUpdate() <= 0) {
+                throw new SQLException("failed to delete user. no rows were removed");
+            }
+            connection.commit();
+//            pstmt.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
