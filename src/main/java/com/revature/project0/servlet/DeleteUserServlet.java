@@ -1,8 +1,6 @@
 package com.revature.project0.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.revature.project0.models.User;
 import com.revature.project0.service.UserService;
 
 import javax.servlet.ServletException;
@@ -13,10 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet("/user/update/*")
-public class UpdateUserServlet extends HttpServlet {
+@WebServlet("/user/delete/*")
+public class DeleteUserServlet extends HttpServlet {
+
     private ObjectMapper objectMapper = new ObjectMapper();
-    private UserService userService   = new UserService();
+    private UserService userService = new UserService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,17 +29,13 @@ public class UpdateUserServlet extends HttpServlet {
         String jsonString = sb.toString();
         char uri = req.getPathInfo().charAt(1);
         int id = Character.getNumericValue(uri);
-        User userToBeUpdated = userService.getUser(id);
-        User newFields = objectMapper.readValue(jsonString , User.class);
-
-        userService.updateUser(userToBeUpdated , newFields);
-        if (userToBeUpdated.getUserName().equals("blank")) {
-            resp.getWriter().append("no user with an id of ").append(String.valueOf(id)).append(" found...");
+        String deletedUserName = userService.getUser(id).getUserName();
+        userService.deleteUser(id);
+//        String deletedUserName = "tre";
+        if (deletedUserName.equals("blank")) {
+            resp.getWriter().append("No user matches that id so no user was deleted");
         } else {
-            resp.getWriter().append("succesfully updated user ")
-                    .append(userToBeUpdated.getUserName())
-                    .append("\nnew email: " + newFields.getEmail())
-                    .append("\nnew name: " + newFields.getUserName());
+            resp.getWriter().append("user ").append(deletedUserName).append(" has been deleted");
         }
         resp.setContentType("application/json");
     }

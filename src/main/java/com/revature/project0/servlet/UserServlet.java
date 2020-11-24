@@ -1,6 +1,7 @@
 package com.revature.project0.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.project0.models.User;
 import com.revature.project0.service.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
 
     private ObjectMapper objectMapper = new ObjectMapper();
+    private UserService userService = new UserService();
 
     public UserServlet() {
         super();
@@ -24,10 +26,13 @@ public class UserServlet extends HttpServlet {
 //        String uri = req.getRequestURI();
         char uri = req.getPathInfo().charAt(1);
         int id = Character.getNumericValue(uri);
-        UserService userService = new UserService();
-        resp.getWriter().append(objectMapper.writeValueAsString(userService.getUser(id)));
+        User theGottenUser = userService.getUser(id);
+        if (theGottenUser.getUserName().equals("blank")) {
+            resp.getWriter().append("no match found for a user with an id of ").append(String.valueOf(id));
+        } else {
+            resp.getWriter().append(objectMapper.writeValueAsString(theGottenUser));
+        }
         resp.setContentType("application/json");
-        resp.getWriter().append(uri);
     }
 
     @Override
