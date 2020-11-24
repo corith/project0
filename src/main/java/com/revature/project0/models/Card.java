@@ -8,6 +8,7 @@ public class Card {
 
     public Card() {
         super();
+        this.name = "blank";
     }
 
     public Card(int id, String name, String type, int owner) {
