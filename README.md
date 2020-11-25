@@ -1,4 +1,5 @@
-###Project0 Java api
+## Project0 Java api
+#### Cory Sebastian
 
 - this is a simple java api that keeps track of users, their roles, and "magic cards" that they own.
 - It uses maven and tomcat.
