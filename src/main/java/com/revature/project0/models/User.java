@@ -15,7 +15,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    private int role_id = 1;
+    private int role_id;
     private ArrayList<Card> cards;
     private boolean isLoggedIn;
 
@@ -82,9 +82,6 @@ public class User {
         this.cards = cards;
     }
 
-    public void setRole_id(int id) {
-        this.role_id = id;
-    }
 
     public boolean login(String userName , String password) throws SQLException {
         String sqlQ = "SELECT * FROM users";

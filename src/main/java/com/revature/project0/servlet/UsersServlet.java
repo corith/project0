@@ -45,11 +45,15 @@ public class UsersServlet extends HttpServlet {
 
         try {
             User newUser = objectMapper.readValue(jsonString , User.class);
-            String insertedJson = objectMapper.writeValueAsString(userService.insertUser(newUser));
-            if (insertedJson.equals("null")) {
-                resp.getWriter().append("sorry, something went wrong...no new user was added...");
+            if (newUser.getEmail() == null || newUser.getRole_id() == 0) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST , "you seem to be missing some fields if you wish to add a new user");
             } else {
-                resp.getWriter().append(insertedJson);
+                String insertedJson = objectMapper.writeValueAsString(userService.insertUser(newUser));
+                if (insertedJson.equals("null")) {
+                    resp.getWriter().append("sorry, something went wrong...no new user was added...");
+                } else {
+                    resp.getWriter().append(insertedJson);
+                }
             }
             resp.setContentType("application/json");
 
