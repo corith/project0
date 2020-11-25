@@ -31,4 +31,19 @@ public class UserService {
     public void deleteUser(int id) {
         userDao.deleteUser(id);
     }
+
+    public boolean login(User userTryingToLogin) {
+        ArrayList<User> users = userDao.getAllUsers();
+        return users.contains(userTryingToLogin);
+    }
+
+    public User getUserByName(String userName) {
+        ArrayList<User> users = userDao.getAllUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return new User();
+    }
 }
