@@ -2,7 +2,7 @@
 #### Cory Sebastian
 
 - This is a simple java api that keeps track of users, their roles, and "magic cards" that they own.
-- It uses Java, maven, and tomcat.
+- It uses Java, maven, PostgreSQL, and tomcat.
 - Currently, this was hacked together to be "ready" for a presentation, and it will be undergoing a major refactor in the upcoming days...
 
 #### Known issues and spaghetti scheduled for refactoring before being deployed
