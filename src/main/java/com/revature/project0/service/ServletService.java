@@ -8,7 +8,7 @@ public class ServletService {
 
     /**
      * returns the post request body as a string
-     * @param req
+     * @param req the request
      * @return String
      * @throws IOException
      */

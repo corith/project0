@@ -44,14 +44,17 @@ public class UserServlet extends HttpServlet {
                 resp.getWriter().append(objectMapper.writeValueAsString(foundUser));
             }
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
-
-            if (((Integer) session.getAttribute("role")) == 1) {
-                if (path.equals("/users")) {
-                    resp.getWriter().append(objectMapper.writeValueAsString(userService.getAllUsers()));
+            if (!req.isRequestedSessionIdValid()) {
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED , "You need to be logged in with an admin account to access this page");
+            } else {
+                if (((Integer) session.getAttribute("role")) == 1) {
+                    if (path.equals("/users")) {
+                        resp.getWriter().append(objectMapper.writeValueAsString(userService.getAllUsers()));
+                    }
                 }
-            }
-            else {
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You must be logged in with an admin account to access all the users");
+                else {
+                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You must be logged in with an admin account to access all the users");
+                }
             }
         }
         resp.setContentType("application/json");

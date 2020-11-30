@@ -22,8 +22,8 @@ public class CardServlet extends HttpServlet {
      * doGet(req,resp) gets all the users and a single user by id depending on uri path.
      * the first try catch basically is checking to see if the wild card is a number and
      * if it is it returns a card that has an id == to that number.
-     * @param req
-     * @param resp
+     * @param req the request
+     * @param resp the response
      * @throws ServletException
      * @throws IOException
      */
@@ -46,6 +46,15 @@ public class CardServlet extends HttpServlet {
         resp.setContentType("applications/json");
     }
 
+    /**
+     * handles deleting a new card.
+     * handles adding a new card.
+     * handles updating a new card
+     * @param req the request
+     * @param resp the response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
