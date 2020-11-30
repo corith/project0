@@ -5,13 +5,15 @@ import com.revature.project0.models.Role;
 import com.revature.project0.models.User;
 import com.revature.project0.util.JDBCUtility;
 
-import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseUserDao {
 
-
+    /**
+     * gets all the users in the database - must be logged in with an admin account (role == 1)
+     * @return ArrayList of User objects (returns empty list if no users are found)
+     */
     public ArrayList<User> getAllUsers() {
         String sqlQuery = "SELECT * "
                 + "FROM users u "
@@ -63,8 +65,12 @@ public class DatabaseUserDao {
         return users;
     }
 
+    /**
+     * finds a user by it's id
+     * @param id the id of the user you are trying to find
+     * @return User - returns a "blank" user if none are found
+     */
     public User getUser(int id) {
-//        String sqlQuery = "SELECT * FROM users";
         String sqlQuery = "SELECT * "
                 + "FROM users u "
                 + "INNER JOIN roles r "
@@ -114,6 +120,12 @@ public class DatabaseUserDao {
         return new User();
     }
 
+    /**
+     * creates a new user - must have all required fields in the body
+     * userName, email, password, role_id
+     * @param newUser the User you want to add
+     * @return User object if created successfully and null if not
+     */
     public User insertUser(User newUser) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
@@ -148,6 +160,12 @@ public class DatabaseUserDao {
         return null;
     }
 
+    /**
+     * updates a user with new fields...currently can only change a users name and email
+     * @param user User that if to be changed
+     * @param newFields User object that contains only a userName and an Email
+     * @return User (this needs changed)
+     */
     public User updateUser(User user , User newFields) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
@@ -173,6 +191,10 @@ public class DatabaseUserDao {
     }
 
 
+    /**
+     * deletes a user with the id of id
+     * @param id the id of the user you want to delete
+     */
     public void deleteUser(int id) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
@@ -185,7 +207,7 @@ public class DatabaseUserDao {
                 throw new SQLException("failed to delete user. no rows were removed");
             }
             connection.commit();
-//            pstmt.close();
+            pstmt.close();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

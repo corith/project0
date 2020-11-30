@@ -2,6 +2,7 @@ package com.revature.project0.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.project0.models.User;
+import com.revature.project0.service.ServletService;
 import com.revature.project0.service.UserService;
 
 import javax.servlet.ServletException;
@@ -10,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -23,16 +22,10 @@ public class LoginServlet extends HttpServlet {
 
     private final ObjectMapper objMapper = new ObjectMapper();
     private final UserService userService = new UserService();
+    private final ServletService servletService = new ServletService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BufferedReader br = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        String jsonString = sb.toString();
+        String jsonString = servletService.getPostReqBody(request);
 
         User userTryingToLogin = objMapper.readValue(jsonString , User.class);
         if (userService.login(userTryingToLogin)) {

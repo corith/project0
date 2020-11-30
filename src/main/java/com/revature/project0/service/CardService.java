@@ -13,12 +13,6 @@ public class CardService {
         this.cardDao = new DatabaseCardDao();
     }
 
-    /**
-     * This will return all the cards in the database no matter the owner.
-     * It should only be accessible for the admin user...but this may not be
-     * implemented currently...
-     * @return ArrayList<Card>
-     */
     public ArrayList<Card> getAllCards() {
         return cardDao.getAllCards();
     }
