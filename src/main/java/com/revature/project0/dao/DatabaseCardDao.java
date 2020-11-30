@@ -7,6 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseCardDao {
+
+    /**
+     * returns an array list of all the cards in the database. Does not require authentication.
+     * @return ArrayList of cards
+     */
     public ArrayList<Card> getAllCards() {
         String sqlQuery = "SELECT * FROM cards";
         ArrayList<Card> cards = new ArrayList<>();
@@ -31,6 +36,11 @@ public class DatabaseCardDao {
         return cards;
     }
 
+    /**
+     * get a single card by id
+     * @param id the id of the card
+     * @return Card object if found and blank card if not found
+     */
     public Card getCard(int id) {
         String sqlQuery = "SELECT * "
                 + "FROM cards c";
@@ -40,7 +50,6 @@ public class DatabaseCardDao {
             ResultSet rs   = stmt.executeQuery(sqlQuery);
 
             while (rs.next()) {
-//            rs.next();
             int cardId      = rs.getInt(1);
                 if (cardId == id) {
                     String cardName = rs.getString(2);
@@ -58,6 +67,11 @@ public class DatabaseCardDao {
         return new Card();
     }
 
+    /**
+     * Create a new card with fields "name", "type", and "owner".
+     * @param newCard card to be created
+     * @return the card that was inserted or null
+     */
     public Card insertCard(Card newCard) {
 
         try(Connection connection = JDBCUtility.getConnection()) {
@@ -84,6 +98,10 @@ public class DatabaseCardDao {
 
     }
 
+    /**
+     * Deletes a card with the id of id
+     * @param id the id of the card that should be deleted
+     */
     public void deleteCard(int id) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
@@ -101,6 +119,11 @@ public class DatabaseCardDao {
         }
     }
 
+    /**
+     * Updates a card. Can only update a cards "name" and "type".
+     * @param cardToBeUpdated the card to be updated
+     * @param newFields Card object that only has name and type fields
+     */
     public void updateCard(Card cardToBeUpdated, Card newFields) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
