@@ -37,6 +37,12 @@ public class UserService {
         return users.contains(userTryingToLogin);
     }
 
+    /**
+     * Returns the user with the name that matches userName and returns a blank user name if none exist.
+     *
+     * @param userName The name of the user you would like the find
+     * @return User returns the user if found and returns a blank user if not found
+     */
     public User getUserByName(String userName) {
         ArrayList<User> users = userDao.getAllUsers();
         for (User user : users) {
