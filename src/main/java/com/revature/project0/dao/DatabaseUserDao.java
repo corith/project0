@@ -32,7 +32,7 @@ public class DatabaseUserDao {
                 int userId = rs.getInt(1);
                 String name = rs.getString(2);
                 String password = rs.getString(3);
-                String email = rs.getString(5);
+                String email = rs.getString(6);
 
                 // get cards owned by each user
                 ArrayList<Card> cards = new ArrayList<Card>();
@@ -50,8 +50,8 @@ public class DatabaseUserDao {
 
                 }
 
-                int role_id = rs.getInt(4);
-                String role = rs.getString(7);
+                int role_id = rs.getInt(5);
+                String role = rs.getString(8);
                 Role roleObj = new Role(role_id ,role);
                 User user = new User(userId , roleObj, name , email, password);
                 user.setCards(cards);
@@ -87,7 +87,7 @@ public class DatabaseUserDao {
 
                     String name = rs.getString(2);
                     String password = rs.getString(3);
-                    String email = rs.getString(5);
+                    String email = rs.getString(6);
 
                     // get cards owned by each user
                     ArrayList<Card> cards = new ArrayList<Card>();
@@ -105,8 +105,8 @@ public class DatabaseUserDao {
 
                     }
 
-                    int role_id = rs.getInt(4);
-                    String role = rs.getString(7);
+                    int role_id = rs.getInt(5);
+                    String role = rs.getString(8);
                     Role roleObj = new Role(role_id ,role);
                     User user = new User(userId , roleObj, name , email, password);
                     user.setCards(cards);
@@ -124,21 +124,23 @@ public class DatabaseUserDao {
      * creates a new user - must have all required fields in the body
      * userName, email, password, role_id
      * @param newUser the User you want to add
+     * @param salt
      * @return User object if created successfully and null if not
      */
-    public User insertUser(User newUser) {
+    public User insertUser(User newUser, String salt , String hashedPassword) {
         try (Connection connection = JDBCUtility.getConnection()) {
             connection.setAutoCommit(false);
 
             String sqlQuery = "INSERT INTO users "
-                    + "(name,password,email,role_id) "
+                    + "(name,password,salt,email,role_id) "
                     + "VALUES "
-                    + "(?,?,?,?)";
+                    + "(?,?,?,?,?)";
             PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, newUser.getUserName());
-            pstmt.setInt(2, Integer.parseInt(newUser.getPassword()));
-            pstmt.setString(3, newUser.getEmail());
-            pstmt.setInt(4, newUser.getRole_id());
+            pstmt.setString(2, hashedPassword);
+            pstmt.setString(3 , salt);
+            pstmt.setString(4, newUser.getEmail());
+            pstmt.setInt(5, newUser.getRole_id());
 
             if (pstmt.executeUpdate() != 1) {
                 throw new SQLException("Inserting user failed, no rows were impacted");

@@ -26,18 +26,17 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String jsonString = servletService.getPostReqBody(request);
-
         User userTryingToLogin = objMapper.readValue(jsonString , User.class);
-        if (userService.login(userTryingToLogin)) {
+        if (userService.authUser(userTryingToLogin , userTryingToLogin.getPassword())) {
             User currentUser = userService.getUserByName(userTryingToLogin.getUserName());
             HttpSession session = request.getSession();
             session.setAttribute("user" , currentUser.getUserName());
             session.setAttribute("role" , currentUser.getRole().getId());
             response.getWriter().append("Successful login ")
-                        .append(userTryingToLogin.getUserName() +" " + currentUser.getRole().getId() +" "+ currentUser.getUserName());
-        } else {
-            response.getWriter().append("username or password does not match " )
                         .append(userTryingToLogin.getUserName());
+        } else {
+            response.getWriter().append("username or password does not match ")
+                    .append(userTryingToLogin.getUserName());
         }
         response.setContentType("application/json");
 
