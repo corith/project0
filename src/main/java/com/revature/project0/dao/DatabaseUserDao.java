@@ -121,10 +121,11 @@ public class DatabaseUserDao {
     }
 
     /**
-     * creates a new user - must have all required fields in the body
+     * Creates a new User - must have all required fields in the body of the request
      * userName, email, password, role_id
-     * @param newUser the User you want to add
-     * @param salt
+     * @param newUser The User you want to add
+     * @param salt The salt used to hash password
+     * @param hashedPassword The hashed password given by insertUser() in UserService.java
      * @return User object if created successfully and null if not
      */
     public User insertUser(User newUser, String salt , String hashedPassword) {
@@ -163,7 +164,7 @@ public class DatabaseUserDao {
     }
 
     /**
-     * updates a user with new fields...currently can only change a users name and email
+     * Updates a user with new fields...currently can only change a users name and email
      * @param user User that if to be changed
      * @param newFields User object that contains only a userName and an Email
      * @return User (this needs changed)

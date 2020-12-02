@@ -30,6 +30,11 @@ public class UserService {
         return userDao.getUser(id);
     }
 
+    /**
+     * inserts a user and hashes their password
+     * @param newUser the new user
+     * @return the user object that was inserted
+     */
     public User insertUser(User newUser) {
         String passwordToHash = newUser.getPassword();
         SecureRandom random = new SecureRandom();
@@ -56,11 +61,12 @@ public class UserService {
         userDao.deleteUser(id);
     }
 
-    public boolean login(User userTryingToLogin) {
-        ArrayList<User> users = userDao.getAllUsers();
-        return users.contains(userTryingToLogin);
-    }
-
+    /**
+     * Used for hashing a users password on a login attempt
+     * @param password The password of the user trying to login
+     * @param salt the users salt from the DB
+     * @return String of the hashed password
+     */
     public String hashingMethod(String password , String salt) {
         byte[] decodedSalt = null;
         try {
@@ -80,22 +86,15 @@ public class UserService {
         return Hex.encodeHexString(hashedPassword);
     }
 
+    /**
+     * Checks to see if the user trying to login has a password that matches.
+     * @param userTryingToLogin The user trying to login
+     * @param password The users password given at login
+     * @return True if matches and false if not or if SQLException is thrown
+     */
     public boolean authUser(User userTryingToLogin, String password) {
-        String sql = "select salt, password from users where name = ?";
-
-        try(PreparedStatement pstmt = JDBCUtility.getConnection().prepareStatement(sql)) {
-            pstmt.setString(1 , userTryingToLogin.getUserName());
-            ResultSet rs = pstmt.executeQuery();
-
-            rs.next();
-            String hashedPass = rs.getString("password");
-
-            return hashedPass.equals(hashingMethod(password, userTryingToLogin.getSalt()));
-
-        } catch (SQLException throwables) {
-            return false;
-//            throwables.printStackTrace();
-        }
+        String hashedPass = userTryingToLogin.getHashedPass();
+        return hashedPass.equals(hashingMethod(password, userTryingToLogin.getSalt()));
     }
 
     /**

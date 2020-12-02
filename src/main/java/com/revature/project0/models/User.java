@@ -1,6 +1,5 @@
 package com.revature.project0.models;
 
-import com.revature.project0.service.ServletService;
 import com.revature.project0.service.UserService;
 import com.revature.project0.util.JDBCUtility;
 
@@ -78,6 +77,10 @@ public class User {
         this.cards = cards;
     }
 
+    /**
+     * Returns the users salt from the DB
+     * @return String for the user's salt
+     */
     public String getSalt() {
         UserService us = new UserService();
         String sql = "select salt from users where name = ?";
@@ -94,6 +97,10 @@ public class User {
         return null;
     }
 
+    /**
+     * Returns the users hashed password from the DB
+     * @return String for the user's hashed password - will return null if SQLException is thrown
+     */
     public String getHashedPass() {
         String sql = "select password from users where name = ?";
         try {
@@ -113,6 +120,11 @@ public class User {
         return this.userName + " " + this.password + " " + this.email;
     }
 
+    /**
+     * Deprecated - will most likely be removed in future..
+     * @param obj object to be compared
+     * @return true if equal and false if not
+     */
     @Override
     public boolean equals(Object obj) {
         UserService us = new UserService();

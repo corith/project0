@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             response.getWriter().append("Successful login ")
                         .append(userTryingToLogin.getUserName());
         } else {
-            response.getWriter().append("username or password does not match ")
+            response.getWriter().append("username or password does not match for user ")
                     .append(userTryingToLogin.getUserName());
         }
         response.setContentType("application/json");
