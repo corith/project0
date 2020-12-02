@@ -13,7 +13,7 @@ public class JDBCUtility {
         String username = "postgres";
         String password = "";
 
-        Connection connection = null;
+        Connection connection;
         DriverManager.registerDriver(new Driver());
         connection = DriverManager.getConnection(url, username, password);
         return connection;
