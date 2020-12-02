@@ -87,6 +87,8 @@ public class UserServlet extends HttpServlet {
                             .append("\nnew name: " + newUserFields.getUserName())
                             .append("\nnew email: " + userToBeUpdated);
                 }
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
             if (path.equals("/users/add")) {

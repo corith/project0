@@ -2,7 +2,6 @@ package com.revature.project0.service;
 
 import com.revature.project0.dao.DatabaseUserDao;
 import com.revature.project0.models.User;
-import com.revature.project0.util.JDBCUtility;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
@@ -10,9 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserService {

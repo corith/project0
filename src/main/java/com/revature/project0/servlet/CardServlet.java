@@ -64,16 +64,8 @@ public class CardServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(path.substring(14));
-            String updateOrDelete = path.substring(6 , 13);
-            if (updateOrDelete.equals("/delete")) {
-                String deletedCard = cardService.getCard(id).getName();
-                cardService.deleteCard(id);
-                if (deletedCard.equals("blank")) {
-                    resp.getWriter().append("there was no card found with an id of ").append(String.valueOf(id));
-                } else {
-                    resp.getWriter().append("the card with an id of " + id + " has been deleted");
-                }
-            } else if (updateOrDelete.equals("/update")) {
+            String correctPath = path.substring(6 , 13);
+            if (correctPath.equals("/update")) {
                 // run update code
                 Card cardToBeUpdated = cardService.getCard(id);
                 Card newFields = objectMapper.readValue(jsonString , Card.class);
@@ -86,10 +78,9 @@ public class CardServlet extends HttpServlet {
                             .append("\nnew name: " + newFields.getName())
                             .append("\nnew type: " + newFields.getType());
                 }
-            } else {
+            }  else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
-
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
 
             if (path.equals("/cards/add")) {
@@ -107,4 +98,25 @@ public class CardServlet extends HttpServlet {
         resp.setContentType("application/json");
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = req.getRequestURI().substring(9);
+
+        try {
+            int id = Integer.parseInt(path.substring(14));
+            String correctPath = path.substring(6 , 13);
+            if (correctPath.equals("/delete")) {
+                String deletedCardName = cardService.getCard(id).getName();
+                if (deletedCardName.equals("blank")) {
+                    resp.getWriter().append("No card found with id of ").append(String.valueOf(id));
+                } else {
+                    cardService.deleteCard(id);
+                    resp.getWriter().append("The card ").append(deletedCardName).append(" has been deleted..");
+                }
+            }
+        } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+        resp.setContentType("application/json");
+    }
 }
