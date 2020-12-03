@@ -1,5 +1,6 @@
 package com.revature.project0.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.project0.service.UserService;
 import com.revature.project0.util.JDBCUtility;
 
@@ -84,6 +85,7 @@ public class User {
      * Returns the users salt from the DB
      * @return String for the user's salt
      */
+    @JsonIgnore
     public String getSalt() {
         UserService us = new UserService();
         String sql = "select salt from users where name = ?";
@@ -104,6 +106,7 @@ public class User {
      * Returns the users hashed password from the DB
      * @return String for the user's hashed password - will return null if SQLException is thrown
      */
+    @JsonIgnore
     public String getHashedPass() {
         String sql = "select password from users where name = ?";
         try {
