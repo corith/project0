@@ -3,6 +3,7 @@
 
 - This is a simple java api that keeps track of users, their roles, and "magic cards" that they own.
 - It uses Java, maven, PostgreSQL, and tomcat.
+- There is a seeder called "Seeder.java" - run this class's main method once connected properly to the DB to seed the DB with dummy data.
 
     
 ### End points that are available are as follows
