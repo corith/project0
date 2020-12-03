@@ -6,7 +6,7 @@
 - There is a seeder called "Seeder.java" - run this class's main method once connected properly to the DB to seed the DB with dummy data.
 
     
-### End points that are available are as follows - append to http://18.191.121.52:8080
+### End points that are available are as follows - Example http://18.191.121.52:8080/project0/cards
     - /project0/login (POST)
     - /project0/logout (POST)
     - /project0/users/add (POST - creates a new user)
