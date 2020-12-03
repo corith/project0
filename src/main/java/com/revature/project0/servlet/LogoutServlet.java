@@ -14,7 +14,12 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        session.invalidate();
-        resp.getWriter().append("logged out");
+        if (req.isRequestedSessionIdValid()) {
+            session.invalidate();
+            resp.getWriter().append("logged out");
+        } else {
+            resp.getWriter().append("you are not logged in...");
+        }
+        resp.setContentType("application/json");
     }
 }
