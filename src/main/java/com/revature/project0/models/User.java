@@ -76,6 +76,9 @@ public class User {
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
+    public void setRole_id(int id) {
+        this.role_id = id;
+    }
 
     /**
      * Returns the users salt from the DB

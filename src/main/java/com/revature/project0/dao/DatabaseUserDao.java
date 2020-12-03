@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class DatabaseUserDao {
 
     /**
-     * gets all the users in the database - must be logged in with an admin account (role == 1)
+     * Gets all the users in the database - must be logged in with an admin account (role == 1)
+     * NOTE: does not return the users in order of id
      * @return ArrayList of User objects (returns empty list if no users are found)
      */
     public ArrayList<User> getAllUsers() {
