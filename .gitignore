@@ -10,3 +10,8 @@ target/
 
 ### App.java which was mvn build example but used for testing some stuff on the fly
 App.java
+
+# eclipse files
+.settings/
+.project
+.classpath
