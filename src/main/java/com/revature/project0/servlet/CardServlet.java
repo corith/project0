@@ -43,7 +43,7 @@ public class CardServlet extends HttpServlet {
                 resp.getWriter().append(objectMapper.writeValueAsString(cardService.getAllCards()));
             }
         }
-        resp.setContentType("applications/json");
+        resp.setContentType("application/json");
     }
 
     /**
