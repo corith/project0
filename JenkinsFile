@@ -11,9 +11,9 @@ pipeline {
                 when {
                     branch 'main'
                 }
-                
+
                 steps {
-                    sh 'cp target/project0.war ~/apache-tomcat-9.0.40/webapps'
+                    sh 'cp ~/code/project0/target/project0.war ~/apache-tomcat-9.0.40/webapps'
                 }
             }
         }
