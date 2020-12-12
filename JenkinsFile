@@ -5,7 +5,14 @@ pipeline {
                 steps {
                     sh 'mvn clean package'
                 }
-                post {
+            }
+
+            stage ('deploy') {
+                when {
+                    branch 'main'
+                }
+                
+                steps {
                     sh 'cp target/project0.war ~/apache-tomcat-9.0.40/webapps'
                 }
             }
