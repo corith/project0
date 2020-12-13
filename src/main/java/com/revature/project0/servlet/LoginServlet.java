@@ -33,7 +33,8 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user" , currentUser.getUserName());
             session.setAttribute("role" , currentUser.getRole().getId());
             response.getWriter().append("Successful login ")
-                        .append(userTryingToLogin.getUserName());
+                        .append(userTryingToLogin.getUserName())
+                        .append(" id is: " + userTryingToLogin.getId());
         } else {
             response.getWriter().append("username or password does not match for user ")
                     .append(userTryingToLogin.getUserName());
