@@ -19,7 +19,7 @@ This is a simple api written in Java that keeps track of users, their roles, and
 - A user can update their name and email.
 - There is a seeder called "Seeder.java"...run this class's main method once connected properly to the DB to seed the DB with dummy data provided by the Faker library.
 
-## Fantastic Future Features
+#### Fantastic Future Features
 - The ability for users to trade cards with one another.
 - Increase validation for appropriate endpoints.
 - Transfer project to spring boot.
