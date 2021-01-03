@@ -39,7 +39,7 @@ This is a simple api written in Java that keeps track of users, their roles, and
 ## Usage
 Once you have the tomcat server running and the WAR file in the webapps directory, you can hit the local api at localhost:8080/project0/{endpoint}.
 
-#### End points that are available to hit are below - Example http://18.191.121.52:8080/project0/cards
+#### End points that are available to hit are below - Live example: http://18.191.121.52:8080/project0/cards
     - /project0/login (POST)
     - /project0/logout (POST)
     - /project0/users/add (POST - creates a new user)
