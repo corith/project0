@@ -53,7 +53,7 @@ Once you have the tomcat server running and the WAR file in the webapps director
     - /project0/cards/update/{id} (POST - updates a card by id...can update a cards name and type - will be adding the ability to update owner that way users can trade cards if they would like)
     - /project0/cards/delete/{id} (DELETE - deletes a card by id)
     
-### Example Requests Bodies
+#### Example Requests Bodies
 Logging in
 ```json
 {
